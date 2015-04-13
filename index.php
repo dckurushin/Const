@@ -57,18 +57,17 @@ if (empty($registry->controllerName))
 $tmpControllerClassName = 'Controller' . FS . $registry->controllerName;
 if (!is_file(APP_PATH . DS . $tmpControllerClassName . '.php'))
 {//todo set into config?
-    $tmpControllerClassName = 'Core' . FS . \Common\Config::$error_controller;
+    $tmpControllerClassName = 'Core' . FS . Common\Config::$error_controller;
     $registry->modelName = 'error404';
 }
 
 $registry->controller = new $tmpControllerClassName();
 
-if (is_null($registry->modelName))
-    $registry->controller->index();
-else if(!method_exists($registry->controller, $registry->modelName))
-    $registry->controller->error404();
-else
+if (method_exists($registry->controller, $registry->modelName))
     $registry->controller->{$registry->modelName}();
+else
+    $registry->controller->error404();
+
 
 //echo '<pre>';
 //var_dump($registry);
@@ -82,3 +81,4 @@ else
 //$endTime = new DateTime();
 //$timeDiff = $endTime->diff($startTime);
 //echo '</pre>';
+echo '<pre>' . 'memory consumption: '. round(memory_get_usage() / 1024 / 1024, 3) . ' mb' . '</pre>';

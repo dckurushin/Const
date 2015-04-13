@@ -13,6 +13,7 @@ class Router {
     private $path = null;
     private $controller = null;
     private $model = null;
+    const DefaultModel = 'index';//index is the default model
 
     public function __construct($path)
     {
@@ -20,7 +21,7 @@ class Router {
         $pattern = '~^(.*?)(/(.*))?$~';
         preg_match($pattern, $m_path, $matches);
         $this->controller = isset($matches[1]) ? $matches[1] : null;
-        $this->model = isset($matches[3]) ? $matches[3] : null;
+        $this->model = isset($matches[3]) ? $matches[3] : Router::DefaultModel;
     }
 
     public function GetController()

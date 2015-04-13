@@ -20,7 +20,7 @@ class Logger {
     public function __construct($loggingDir)
     {
         $dateTime = new \DateTime();
-        Logger::$log_path = $loggingDir . 'log_'. $dateTime->format('d_m_Y') . '.txt';
+        Logger::$log_path = $loggingDir . 'log_'. $dateTime->format('d_m_Y') . '.txt';//daily log
     }
 
     public static function ErrorHandler($errno, $errstr, $errfile, $errline, $errcontext)
