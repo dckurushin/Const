@@ -2,8 +2,8 @@ SetEnv RUN_MODE development
 
 #htaccess protection
 <Files .htaccess>
- order allow,deny
- deny from all
+ Order allow,deny
+ Deny from all
 </Files>
 
 #prevent directory indexing

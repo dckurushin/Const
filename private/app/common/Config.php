@@ -13,4 +13,7 @@ class Config
     public static $default_controller = 'HelloWorld';
     public static $default_model = 'index';
 
+    public static $error_controller = 'Controller';
+
+    public static $logger_dir = '/temp/logs/';//relative path from app dir
 } 

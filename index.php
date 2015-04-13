@@ -16,6 +16,8 @@ else
 
 //define directory separator
 define('DS', DIRECTORY_SEPARATOR, true);
+//file separator, used to beautify paths to replace \\' to . FS, good for auto includes(spl)
+define('FS', '\\', true);
 
 //basic project configurations
 define('APP_PATH', './private/app', true);
@@ -34,6 +36,11 @@ spl_autoload_register();
 //our general registry
 $registry = Core\Registry::Instance();
 
+$registry->logger = new Core\Logger(APP_PATH . Common\Config::$logger_dir);
+set_error_handler('Core\Logger::ErrorHandler');
+//test logging
+//trigger_error('est', E_USER_NOTICE);
+
 $registry->router = new Core\Router(isset($registry->get['path']) ? $registry->get['path'] : '');
 //set the controller and model name for possible future use
 $registry->controllerName = $registry->router->GetController();
@@ -43,14 +50,14 @@ $registry->modelName = $registry->router->GetModel();
 if (empty($registry->controllerName))
 {
     //load default controller/model which defined in some config
-    $registry->controllerName = \Common\Config::$default_controller;
-    $registry->modelName = \Common\Config::$default_model;
+    $registry->controllerName = Common\Config::$default_controller;
+    $registry->modelName = Common\Config::$default_model;
 }
 
-$tmpControllerClassName = 'Controller\\' . $registry->controllerName;
+$tmpControllerClassName = 'Controller' . FS . $registry->controllerName;
 if (!is_file(APP_PATH . DS . $tmpControllerClassName . '.php'))
 {//todo set into config?
-    $tmpControllerClassName = 'Core\Controller';
+    $tmpControllerClassName = 'Core' . FS . \Common\Config::$error_controller;
     $registry->modelName = 'error404';
 }
 
